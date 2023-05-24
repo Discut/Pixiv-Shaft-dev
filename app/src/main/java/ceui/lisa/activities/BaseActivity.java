@@ -65,9 +65,21 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
 
             initModel();
             initView();
+            initCompatibilityWithGestureNavigation();
             initData();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 适配手势导航栏
+     */
+    public void initCompatibilityWithGestureNavigation(){
+        View decorView = getWindow().getDecorView();
+        if (decorView != null) {
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
 
