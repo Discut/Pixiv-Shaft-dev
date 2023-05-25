@@ -363,4 +363,9 @@ public class FragmentEditFile extends SwipeFragment<FragmentEditFileBinding> imp
         birthday = LocalDate.of(year, monthOfYear + 1, dayOfMonth).toString();
         baseBind.birthday.setText(birthday);
     }
+
+    @Override
+    public boolean isAdaptBottom() {
+        return true;
+    }
 }

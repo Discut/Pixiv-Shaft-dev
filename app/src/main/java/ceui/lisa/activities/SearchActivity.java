@@ -289,4 +289,14 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
                 .create();
         qmuiDialog.show();
     }
+
+    @Override
+    public boolean isAdaptTop() {
+        return true;
+    }
+
+    @Override
+    public View topView() {
+        return baseBind.appBar;
+    }
 }

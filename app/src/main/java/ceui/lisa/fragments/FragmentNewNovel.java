@@ -2,6 +2,7 @@ package ceui.lisa.fragments;
 
 import android.content.Intent;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -69,5 +70,15 @@ public class FragmentNewNovel extends BaseFragment<ViewpagerWithTablayoutBinding
         baseBind.tabLayout.setupWithViewPager(baseBind.viewPager);
         MyOnTabSelectedListener listener = new MyOnTabSelectedListener(mFragments);
         baseBind.tabLayout.addOnTabSelectedListener(listener);
+    }
+
+    @Override
+    public boolean isAdaptTop() {
+        return true;
+    }
+
+    @Override
+    public View topView() {
+        return baseBind.appBar;
     }
 }

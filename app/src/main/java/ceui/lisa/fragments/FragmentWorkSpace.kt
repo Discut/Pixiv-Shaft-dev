@@ -119,4 +119,7 @@ class FragmentWorkSpace : SwipeFragment<FragmentWorkSpaceBinding>(), Display<Use
                 })
         }
     }
+    override fun isAdaptBottom(): Boolean {
+        return true
+    }
 }

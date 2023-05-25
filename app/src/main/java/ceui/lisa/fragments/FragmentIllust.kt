@@ -581,4 +581,12 @@ class FragmentIllust : SwipeFragment<FragmentIllustBinding>() {
             }
         }
     }
+
+    override fun bottomView(): View {
+        return baseBind.bottomLinear
+    }
+
+    override fun isAdaptBottom(): Boolean {
+        return true
+    }
 }

@@ -1,5 +1,7 @@
 package ceui.lisa.fragments;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -49,5 +51,15 @@ public class FragmentPv extends BaseFragment<ViewpagerWithTablayoutBinding> {
         baseBind.tabLayout.setupWithViewPager(baseBind.viewPager);
         MyOnTabSelectedListener listener = new MyOnTabSelectedListener(mFragments);
         baseBind.tabLayout.addOnTabSelectedListener(listener);
+    }
+
+    @Override
+    public boolean isAdaptTop() {
+        return true;
+    }
+
+    @Override
+    public View topView() {
+        return baseBind.appBar;
     }
 }

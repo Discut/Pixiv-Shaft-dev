@@ -2,27 +2,33 @@ package ceui.lisa.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowInsets;
 
 import com.blankj.utilcode.util.BarUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
 import ceui.lisa.R;
+import ceui.lisa.feature.ICompatibilityWithGestureNavigation;
 import ceui.lisa.interfaces.FeedBack;
 import ceui.lisa.utils.Common;
 import ceui.lisa.utils.Local;
 
 
-public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCompatActivity implements ICompatibilityWithGestureNavigation {
 
     protected Context mContext;
     protected FragmentActivity mActivity;
@@ -75,12 +81,84 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
     /**
      * 适配手势导航栏
      */
+    @Override
     public void initCompatibilityWithGestureNavigation(){
         View decorView = getWindow().getDecorView();
         if (decorView != null) {
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            decorView.setOnApplyWindowInsetsListener((v, insets) -> {
+                int systemWindowInsetBottom = insets.getSystemWindowInsetBottom();
+                int systemWindowInsetTop = insets.getSystemWindowInsetTop();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    topView().setPadding(
+                            topView().getPaddingLeft(),
+                            isAdaptTop()?systemWindowInsetTop/2:0,
+                            topView().getPaddingRight(),
+                            topView().getPaddingBottom());
+                    bottomView().setPadding(
+                            bottomView().getPaddingLeft(),
+                            bottomView().getPaddingTop(),
+                            bottomView().getPaddingRight(),
+                            isAdaptBottom()?systemWindowInsetBottom:0);
+                    if (isAdaptBackgroundColor()) {
+                        TypedValue typedValue = new TypedValue();
+                        if (getTheme().resolveAttribute(android.R.attr.windowBackground, typedValue, true)) {
+                            // how to get color?
+                            int colorWindowBackground = typedValue.data;// **just add this line to your code!!**
+                            decorView.setBackgroundColor(colorWindowBackground);
+                        }
+                    }
+                }
+                return insets;
+            });
         }
+
+    }
+
+    /**
+     * 获取top-bar 在启用适配时调用，修改此view的padding top
+     * @return view 布局
+     */
+    @Override
+    public View topView(){
+        return getWindow().getDecorView();
+    }
+
+    /**
+     * 获取view bottom 在启用适配时调用，修改此view的padding bottom
+     * @return view 布局
+     */
+    @Override
+    public View bottomView(){
+        return getWindow().getDecorView();
+    }
+
+    /**
+     * 是否适配背景色
+     * @return 是否适配
+     */
+    @Override
+    public boolean isAdaptBackgroundColor(){
+        return true;
+    }
+
+    /**
+     * 石佛启用top适配
+     * @return 是否适配
+     */
+    @Override
+    public boolean isAdaptTop(){
+        return false;
+    }
+
+    /**
+     * 是否启用底部适配
+     * @return 是否适配
+     */
+    @Override
+    public boolean isAdaptBottom(){
+        return false;
     }
 
     public void initModel() {
