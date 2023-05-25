@@ -2,7 +2,6 @@ package ceui.lisa.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -11,24 +10,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.WindowInsets;
 
-import com.blankj.utilcode.util.BarUtils;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
+
+import com.blankj.utilcode.util.BarUtils;
+
 import ceui.lisa.R;
-import ceui.lisa.feature.ICompatibilityWithGestureNavigation;
+import ceui.lisa.feature.IAdaptGestureNavigation;
 import ceui.lisa.interfaces.FeedBack;
 import ceui.lisa.utils.Common;
 import ceui.lisa.utils.Local;
 
 
-public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCompatActivity implements ICompatibilityWithGestureNavigation {
+public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCompatActivity implements IAdaptGestureNavigation {
 
     protected Context mContext;
     protected FragmentActivity mActivity;
@@ -71,7 +69,7 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
 
             initModel();
             initView();
-            initCompatibilityWithGestureNavigation();
+            initAdaptGestureNavigation();
             initData();
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +80,7 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
      * 适配手势导航栏
      */
     @Override
-    public void initCompatibilityWithGestureNavigation(){
+    public void initAdaptGestureNavigation() {
         View decorView = getWindow().getDecorView();
         if (decorView != null) {
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -91,21 +89,20 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
                 int systemWindowInsetBottom = insets.getSystemWindowInsetBottom();
                 int systemWindowInsetTop = insets.getSystemWindowInsetTop();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    topView().setPadding(
-                            topView().getPaddingLeft(),
-                            isAdaptTop()?systemWindowInsetTop/2:0,
-                            topView().getPaddingRight(),
-                            topView().getPaddingBottom());
-                    bottomView().setPadding(
-                            bottomView().getPaddingLeft(),
-                            bottomView().getPaddingTop(),
-                            bottomView().getPaddingRight(),
-                            isAdaptBottom()?systemWindowInsetBottom:0);
+                    getTopView().setPadding(
+                            getTopView().getPaddingLeft(),
+                            isAdaptTop() ? systemWindowInsetTop / 2 : 0,
+                            getTopView().getPaddingRight(),
+                            getTopView().getPaddingBottom());
+                    getBottomView().setPadding(
+                            getBottomView().getPaddingLeft(),
+                            getBottomView().getPaddingTop(),
+                            getBottomView().getPaddingRight(),
+                            isAdaptBottom() ? systemWindowInsetBottom : 0);
                     if (isAdaptBackgroundColor()) {
                         TypedValue typedValue = new TypedValue();
                         if (getTheme().resolveAttribute(android.R.attr.windowBackground, typedValue, true)) {
-                            // how to get color?
-                            int colorWindowBackground = typedValue.data;// **just add this line to your code!!**
+                            int colorWindowBackground = typedValue.data;
                             decorView.setBackgroundColor(colorWindowBackground);
                         }
                     }
@@ -116,48 +113,28 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
 
     }
 
-    /**
-     * 获取top-bar 在启用适配时调用，修改此view的padding top
-     * @return view 布局
-     */
     @Override
-    public View topView(){
+    public View getTopView() {
         return getWindow().getDecorView();
     }
 
-    /**
-     * 获取view bottom 在启用适配时调用，修改此view的padding bottom
-     * @return view 布局
-     */
     @Override
-    public View bottomView(){
+    public View getBottomView() {
         return getWindow().getDecorView();
     }
 
-    /**
-     * 是否适配背景色
-     * @return 是否适配
-     */
     @Override
-    public boolean isAdaptBackgroundColor(){
+    public boolean isAdaptBackgroundColor() {
         return true;
     }
 
-    /**
-     * 石佛启用top适配
-     * @return 是否适配
-     */
     @Override
-    public boolean isAdaptTop(){
+    public boolean isAdaptTop() {
         return false;
     }
 
-    /**
-     * 是否启用底部适配
-     * @return 是否适配
-     */
     @Override
-    public boolean isAdaptBottom(){
+    public boolean isAdaptBottom() {
         return false;
     }
 
@@ -209,7 +186,7 @@ public abstract class BaseActivity<Layout extends ViewDataBinding> extends AppCo
                 Shaft.sSettings.setRootPathUri(treeUri.toString());
                 final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                         | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-                mContext.getContentResolver().takePersistableUriPermission(treeUri,takeFlags);
+                mContext.getContentResolver().takePersistableUriPermission(treeUri, takeFlags);
                 Common.showToast("授权成功！");
                 Local.setSettings(Shaft.sSettings);
                 doAfterGranted();

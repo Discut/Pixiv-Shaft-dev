@@ -15,8 +15,6 @@
         <item name="qmui_skin_support_dialog_title_text_color">@color/rank_text_color</item>
         <item name="qmui_skin_support_dialog_menu_item_text_color">@color/rank_text_color</item>
         <item name="qmui_skin_support_dialog_edit_text_color">@color/rank_text_color</item>
-<!--        兼容 手势导航-->
-<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
 
 
     </style>

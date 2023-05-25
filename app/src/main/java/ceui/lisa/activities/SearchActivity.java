@@ -1,5 +1,7 @@
 package ceui.lisa.activities;
 
+import static ceui.lisa.activities.Shaft.sUserModel;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,12 +15,6 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.TextView;
 
-import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
-import com.qmuiteam.qmui.skin.QMUISkinManager;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -28,6 +24,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
+
+import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+
 import ceui.lisa.R;
 import ceui.lisa.databinding.FragmentNewSearchBinding;
 import ceui.lisa.fragments.BaseFragment;
@@ -42,11 +45,9 @@ import ceui.lisa.utils.PixivOperate;
 import ceui.lisa.utils.SearchTypeUtil;
 import ceui.lisa.viewmodel.SearchModel;
 
-import static ceui.lisa.activities.Shaft.sUserModel;
-
 public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
 
-    private final BaseFragment<?>[] allPages = new BaseFragment[]{null, null,null};
+    private final BaseFragment<?>[] allPages = new BaseFragment[]{null, null, null};
     private FragmentFilter fragmentFilter;
     private String keyWord = "";
     private SearchModel searchModel;
@@ -93,9 +94,9 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
                 if (allPages[position] == null) {
                     if (position == 0) {
                         allPages[position] = FragmentSearchIllust.newInstance();
-                    } else if(position == 1){
+                    } else if (position == 1) {
                         allPages[position] = FragmentSearchNovel.newInstance();
-                    } else if(position == 2){
+                    } else if (position == 2) {
                         allPages[position] = FragmentSearchUser.newInstance(keyWord);
                     }
                 }
@@ -114,9 +115,10 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
                 return TITLES[position];
             }
         });
-        baseBind.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+        baseBind.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -225,8 +227,7 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
                         Common.showToast(e.toString());
                         e.printStackTrace();
                     }
-                }
-                else if(Common.isNumeric(trimmedKeyword)){
+                } else if (Common.isNumeric(trimmedKeyword)) {
                     QMUITipDialog tipDialog = new QMUITipDialog.Builder(mContext)
                             .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
                             .setTipWord(getString(R.string.string_429))
@@ -251,8 +252,7 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
                             mActivity.finish();
                         }
                     });
-                }
-                else{
+                } else {
                     searchModel.getNowGo().setValue("search_now");
                     Common.hideKeyboard(mActivity);
                 }
@@ -274,7 +274,7 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
         }
     }
 
-    private void tipDialog(Context context){
+    private void tipDialog(Context context) {
         QMUIDialog qmuiDialog = new QMUIDialog.MessageDialogBuilder(context)
                 .setTitle(context.getString(R.string.string_433))
                 .setMessage(context.getString(R.string.string_434))
@@ -296,7 +296,7 @@ public class SearchActivity extends BaseActivity<FragmentNewSearchBinding> {
     }
 
     @Override
-    public View topView() {
+    public View getTopView() {
         return baseBind.appBar;
     }
 }

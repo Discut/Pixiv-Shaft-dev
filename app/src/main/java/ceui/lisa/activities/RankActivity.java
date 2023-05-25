@@ -108,7 +108,7 @@ public class RankActivity extends BaseActivity<ActivityMultiViewPagerBinding> im
     }
 
     @Override
-    public View topView() {
+    public View getTopView() {
         return  baseBind.topView;
     }
 

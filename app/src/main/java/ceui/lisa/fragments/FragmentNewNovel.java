@@ -78,7 +78,7 @@ public class FragmentNewNovel extends BaseFragment<ViewpagerWithTablayoutBinding
     }
 
     @Override
-    public View topView() {
+    public View getTopView() {
         return baseBind.appBar;
     }
 }

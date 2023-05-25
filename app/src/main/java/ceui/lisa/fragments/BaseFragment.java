@@ -20,10 +20,10 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.util.UUID;
 
-import ceui.lisa.feature.ICompatibilityWithGestureNavigation;
+import ceui.lisa.feature.IAdaptGestureNavigation;
 
 
-public abstract class BaseFragment<Layout extends ViewDataBinding> extends Fragment implements ICompatibilityWithGestureNavigation {
+public abstract class BaseFragment<Layout extends ViewDataBinding> extends Fragment implements IAdaptGestureNavigation {
 
     protected View rootView;
     @NonNull
@@ -102,7 +102,7 @@ public abstract class BaseFragment<Layout extends ViewDataBinding> extends Fragm
                     rootView = inflater.inflate(mLayoutID, container, false);
                 }
                 initView();
-                initCompatibilityWithGestureNavigation();
+                initAdaptGestureNavigation();
                 initData();
                 return rootView;
             }
@@ -163,11 +163,8 @@ public abstract class BaseFragment<Layout extends ViewDataBinding> extends Fragm
     }
 
 
-    /**
-     * 适配手势导航栏
-     */
     @Override
-    public void initCompatibilityWithGestureNavigation() {
+    public void initAdaptGestureNavigation() {
         if (!isAdaptTop() && !isAdaptBottom()) {
             return;
         }
@@ -176,15 +173,15 @@ public abstract class BaseFragment<Layout extends ViewDataBinding> extends Fragm
             int systemWindowInsetBottom = insets.getSystemWindowInsetBottom();
             int systemWindowInsetTop = insets.getSystemWindowInsetTop();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                topView().setPadding(
-                        topView().getPaddingLeft(),
+                getTopView().setPadding(
+                        getTopView().getPaddingLeft(),
                         isAdaptTop() ? systemWindowInsetTop / 2 : 0,
-                        topView().getPaddingRight(),
-                        topView().getPaddingBottom());
-                bottomView().setPadding(
-                        bottomView().getPaddingLeft(),
-                        bottomView().getPaddingTop(),
-                        bottomView().getPaddingRight(),
+                        getTopView().getPaddingRight(),
+                        getTopView().getPaddingBottom());
+                getBottomView().setPadding(
+                        getBottomView().getPaddingLeft(),
+                        getBottomView().getPaddingTop(),
+                        getBottomView().getPaddingRight(),
                         isAdaptBottom() ? systemWindowInsetBottom : 0);
                 if (isAdaptBackgroundColor()) {
                     TypedValue typedValue = new TypedValue();
@@ -200,51 +197,26 @@ public abstract class BaseFragment<Layout extends ViewDataBinding> extends Fragm
 
     }
 
-    /**
-     * 获取top-bar 在启用适配时调用，修改此view的padding top
-     *
-     * @return view 布局
-     */
     @Override
-    public View topView() {
+    public View getTopView() {
         return baseBind.getRoot();
     }
 
-    /**
-     * 获取view bottom 在启用适配时调用，修改此view的padding bottom
-     *
-     * @return view 布局
-     */
     @Override
-    public View bottomView() {
+    public View getBottomView() {
         return baseBind.getRoot();
     }
 
-    /**
-     * 是否适配背景色
-     *
-     * @return 是否适配
-     */
     @Override
     public boolean isAdaptBackgroundColor() {
         return true;
     }
 
-    /**
-     * 石佛启用top适配
-     *
-     * @return 是否适配
-     */
     @Override
     public boolean isAdaptTop() {
         return false;
     }
 
-    /**
-     * 是否启用底部适配
-     *
-     * @return 是否适配
-     */
     @Override
     public boolean isAdaptBottom() {
         return false;

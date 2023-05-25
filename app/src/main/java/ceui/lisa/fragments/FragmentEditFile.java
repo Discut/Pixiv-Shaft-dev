@@ -1,5 +1,8 @@
 package ceui.lisa.fragments;
 
+import static android.app.Activity.RESULT_OK;
+import static ceui.lisa.activities.Shaft.sUserModel;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -50,9 +53,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
-import static ceui.lisa.activities.Shaft.sUserModel;
 
 public class FragmentEditFile extends SwipeFragment<FragmentEditFileBinding> implements Display<Preset>, DatePickerDialog.OnDateSetListener {
 

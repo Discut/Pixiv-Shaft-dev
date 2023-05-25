@@ -22,17 +22,36 @@ import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ceui.lisa.R
-import ceui.lisa.activities.*
+import ceui.lisa.activities.BaseActivity
+import ceui.lisa.activities.SearchActivity
+import ceui.lisa.activities.Shaft
+import ceui.lisa.activities.TemplateActivity
+import ceui.lisa.activities.UserActivity
+import ceui.lisa.activities.followUser
+import ceui.lisa.activities.unfollowUser
 import ceui.lisa.adapters.IllustAdapter
 import ceui.lisa.database.AppDatabase
 import ceui.lisa.databinding.FragmentIllustBinding
 import ceui.lisa.dialogs.MuteDialog
 import ceui.lisa.download.IllustDownload
-import ceui.lisa.models.*
+import ceui.lisa.models.IllustsBean
+import ceui.lisa.models.ObjectSpec
+import ceui.lisa.models.TagsBean
+import ceui.lisa.models.UserBean
 import ceui.lisa.notification.CallBackReceiver
-import ceui.lisa.utils.*
-import ceui.loxia.*
+import ceui.lisa.utils.Common
+import ceui.lisa.utils.DensityUtil
+import ceui.lisa.utils.GlideUrlChild
+import ceui.lisa.utils.GlideUtil
+import ceui.lisa.utils.Params
+import ceui.lisa.utils.PixivOperate
+import ceui.lisa.utils.SearchTypeUtil
+import ceui.lisa.utils.ShareIllust
+import ceui.loxia.ObjectPool
+import ceui.loxia.ProgressTextButton
+import ceui.loxia.combineLatest
 import ceui.loxia.flag.FlagDescFragment
+import ceui.loxia.threadSafeArgs
 import ceui.refactor.setOnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -582,7 +601,7 @@ class FragmentIllust : SwipeFragment<FragmentIllustBinding>() {
         }
     }
 
-    override fun bottomView(): View {
+    override fun getBottomView(): View {
         return baseBind.bottomLinear
     }
 

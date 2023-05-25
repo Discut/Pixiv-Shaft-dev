@@ -2,25 +2,25 @@ package ceui.lisa.feature;
 
 import android.view.View;
 
-public interface ICompatibilityWithGestureNavigation {
+public interface IAdaptGestureNavigation {
     /**
      * 适配手势导航栏
      */
-    void initCompatibilityWithGestureNavigation();
+    void initAdaptGestureNavigation();
 
     /**
      * 获取top-bar 在启用适配时调用，修改此view的padding top
      *
      * @return view 布局
      */
-    View topView();
+    View getTopView();
 
     /**
      * 获取view bottom 在启用适配时调用，修改此view的padding bottom
      *
      * @return view 布局
      */
-    View bottomView();
+    View getBottomView();
 
     /**
      * 是否适配背景色
@@ -32,7 +32,7 @@ public interface ICompatibilityWithGestureNavigation {
     }
 
     /**
-     * 石佛启用top适配
+     * 是否启用top适配
      *
      * @return 是否适配
      */
