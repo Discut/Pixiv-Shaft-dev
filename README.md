@@ -1,3 +1,8 @@
+# Dev
++ 初步适配手势导航
+
+# Original Desc
+---
 # Shaft (Pixiv 第三方客户端)
 [![release](https://img.shields.io/github/v/release/CeuiLiSA/Pixiv-Shaft)](https://github.com/CeuiLiSA/Pixiv-Shaft/releases/latest)
 [![build status](https://img.shields.io/github/workflow/status/CeuiLiSA/Pixiv-Shaft/CI)](https://github.com/CeuiLiSA/Pixiv-Shaft/actions)
